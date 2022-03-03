@@ -12,37 +12,30 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
-    MainActivityViewModel model;
+    private MainActivityViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        model = ViewModelProviders.of(this).get(MainActivityViewModel.class);
-        model = new ViewModelProvider(this).get(MainActivityViewModel.class);
-
-
         textView = findViewById(R.id.textView);
-
+        model = new ViewModelProvider(this).get(MainActivityViewModel.class);
         LiveData<Integer> countLiveData = model.getCurrentValue();
-
         countLiveData.observe(this, new Observer<Integer>() {
+
             @Override
             public void onChanged(Integer integer) {
                 textView.setText(String.valueOf(integer));
             }
         });
-
-
     }
 
     public void decreaseValue(View view) {
-
-        model.getDecreasedValue();
+        model.decreaseValue();
     }
 
     public void increaseValue(View view) {
-        model.getIncreasedValue();
+        model.increaseValue();
     }
 }
